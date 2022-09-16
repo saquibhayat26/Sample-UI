@@ -2,10 +2,17 @@ import React from "react";
 import styled from "styled-components";
 import ReactMarkdown from "react-markdown";
 import { useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import { deletePost } from "./../redux/createPostSlice";
+import { useEffect } from "react";
 
 function Post({ id, title, desc }) {
+  useEffect(() => {}, []);
+  const select = useSelector((state) => state.filter.data);
+  console.log(select);
   const dispatch = useDispatch();
+
+  console.log(select);
 
   const handleClick = (e) => {
     let id = e.target.id;
