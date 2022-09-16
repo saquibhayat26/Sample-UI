@@ -9,7 +9,9 @@ export const postSlice = createSlice({
     publishPost: (state, action) => {
       state.push(action.payload);
     },
-    deletePost: (state, action) => {},
+    deletePost: (state, action) => {
+      state.splice(action.payload, 1);
+    },
   },
 });
 

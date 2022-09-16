@@ -5,29 +5,19 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { publishPost } from "../redux/createPostSlice";
 
-let postPreview = {
-  title: "",
-  desc: "",
-};
-
 function NewPost() {
   const [value, setValue] = useState("");
-  const [data, setData] = useState(postPreview);
-  console.log(data);
+  const [data, setData] = useState("");
 
   const dispatch = useDispatch();
 
-  function updateValue() {}
-
   function handlePublish() {
-    setData({ ...data, desc: value });
-    console.log(data);
-    dispatch(publishPost(data));
+    dispatch(publishPost({ title: data, desc: value }));
   }
 
   function handleInput(e) {
     let inputTitle = e.target.value;
-    setData({ ...data, title: inputTitle });
+    setData(inputTitle);
   }
 
   return (
@@ -36,7 +26,7 @@ function NewPost() {
         <Label>Title</Label>
         <Input placeholder="Give title" onChange={(e) => handleInput(e)} />
         <Label>Description</Label>
-        <MDEditor value={value} onChange={(setValue, () => updateValue())} />
+        <MDEditor value={value} onChange={setValue} />
         <MDEditor.Markdown source={value} style={{ whiteSpace: "pre-wrap" }} />
         <Button onClick={handlePublish} type="submit">
           Publish
@@ -52,6 +42,7 @@ const Main = styled.div`
   width: 70%;
   height: 75vh;
   margin: auto;
+  padding: 1rem 0;
   margin-top: 1%;
 `;
 
@@ -60,12 +51,25 @@ const Form = styled.div`
   flex-direction: column;
 `;
 
-const Label = styled.label``;
+const Label = styled.label`
+  margin-bottom: 0.3rem;
+  font-size: 18px;
+  text-transform: uppercase;
+  font-weight: 500;
+  letter-spacing: 1px;
+`;
 
-const Input = styled.input``;
+const Input = styled.input`
+  height: 2rem;
+  font-size: 16px;
+  padding: 0 8px;
+  margin-bottom: 2rem;
+  border: 1px solid lightgray;
+`;
 
 const Button = styled.button`
   height: 2rem;
+  margin-top: 2rem;
   width: 100%;
   border: none;
   font-size: 14px;
