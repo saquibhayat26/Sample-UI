@@ -1,18 +1,20 @@
 import React from "react";
 import styled from "styled-components";
 import MDEditor from "@uiw/react-md-editor";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { publishPost } from "../redux/createPostSlice";
 
 function NewPost() {
-  const [value, setValue] = useState("");
   const [data, setData] = useState("");
+  const [value, setValue] = useState("");
 
   const dispatch = useDispatch();
 
   function handlePublish() {
     dispatch(publishPost({ title: data, desc: value }));
+    setData("");
+    setValue("");
   }
 
   function handleInput(e) {
@@ -24,7 +26,11 @@ function NewPost() {
     <Main>
       <Form>
         <Label>Title</Label>
-        <Input placeholder="Give title" onChange={(e) => handleInput(e)} />
+        <Input
+          placeholder="Give title"
+          value={data}
+          onChange={(e) => handleInput(e)}
+        />
         <Label>Description</Label>
         <MDEditor value={value} onChange={setValue} />
         <MDEditor.Markdown source={value} style={{ whiteSpace: "pre-wrap" }} />

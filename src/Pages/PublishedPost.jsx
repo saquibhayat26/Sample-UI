@@ -6,17 +6,29 @@ import Post from "../components/Post";
 
 function PublishedPost() {
   const select = useSelector((state) => state.post);
+  const searchData = useSelector((state) => state.filter.data);
   return (
     <>
       {select.length !== 0 ? (
         <Main>
-          {select.map((data, index) => (
-            <Post key={index} id={index} title={data.title} desc={data.desc} />
-          ))}
+          {select
+            .filter((val) => {
+              if (!searchData) {
+                return val;
+              } else if (
+                val.title.toLowerCase().includes(searchData.toLowerCase()) ||
+                val.desc.toLowerCase().includes(searchData.toLowerCase())
+              ) {
+                return val;
+              }
+            })
+            .map((val, index) => (
+              <Post key={index} id={index} title={val.title} desc={val.desc} />
+            ))}
         </Main>
       ) : (
         <Main>
-          <Message>No New Feed, Please Create One</Message>
+          <Message>No New Feed, Please Create One.</Message>
         </Main>
       )}
     </>
