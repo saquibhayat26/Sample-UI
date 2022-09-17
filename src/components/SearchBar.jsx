@@ -2,6 +2,47 @@ import React from "react";
 import styled from "styled-components";
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 
+import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { filterData } from "./../redux/filterDataSlice";
+
+function SearchBar() {
+  const dispatch = useDispatch();
+  const [searchData, setSearchData] = useState("");
+
+  const handleFilterInput = (e) => {
+    setSearchData(e.target.value);
+    dispatch(filterData(e.target.value));
+  };
+
+  const handleFilter = () => {
+    // dispatch(filterData(searchData));
+  };
+
+  const handleClear = () => {
+    setSearchData("");
+    dispatch(filterData(""));
+  };
+
+  return (
+    <Main>
+      <Wrapper>
+        <Icon onClick={handleFilter}>
+          <SearchOutlinedIcon style={{ backgroundColor: "transparent" }} />
+        </Icon>
+        <Input
+          placeholder="Search... "
+          value={searchData}
+          onChange={handleFilterInput}
+        />
+        <Remove onClick={handleClear}>x</Remove>
+      </Wrapper>
+    </Main>
+  );
+}
+
+export default SearchBar;
+
 const Main = styled.div`
   background-color: #5e5454;
   height: 4em;
@@ -64,19 +105,3 @@ const Remove = styled.button`
     color: #ff0000;
   }
 `;
-
-function SearchBar() {
-  return (
-    <Main>
-      <Wrapper>
-        <Icon>
-          <SearchOutlinedIcon style={{ backgroundColor: "transparent" }} />
-        </Icon>
-        <Input placeholder="Search... " />
-        <Remove>x</Remove>
-      </Wrapper>
-    </Main>
-  );
-}
-
-export default SearchBar;
